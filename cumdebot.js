@@ -141,14 +141,24 @@ function initBot() {
                                     ctx.sendMessage(msg_1);
                                     botData.subscribed_users.forEach(function (user) {
                                         console.log("Sending message to ".concat(user));
-                                        bot.telegram.sendMessage(user, msg_1);
+                                        try {
+                                            bot.telegram.sendMessage(user, msg_1);
+                                        }
+                                        catch (e) {
+                                            console.log(e);
+                                        }
                                     });
                                 }
                                 else if ('sticker' in msg_1) {
                                     ctx.sendSticker(msg_1.sticker.file_id);
                                     botData.subscribed_users.forEach(function (user) {
                                         console.log("Sending message to ".concat(user));
-                                        bot.telegram.sendSticker(user, msg_1.sticker.file_id);
+                                        try {
+                                            bot.telegram.sendSticker(user, msg_1.sticker.file_id);
+                                        }
+                                        catch (e) {
+                                            console.log(e);
+                                        }
                                     });
                                 }
                                 else if ('photo' in msg_1) {
@@ -156,7 +166,12 @@ function initBot() {
                                     botData.subscribed_users.forEach(function (user) {
                                         var _a;
                                         console.log("Sending message to ".concat(user));
-                                        bot.telegram.sendPhoto(user, msg_1.photo[0].file_id, { caption: "@".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.username, "\n").concat(msg_1.caption) });
+                                        try {
+                                            bot.telegram.sendPhoto(user, msg_1.photo[0].file_id, { caption: "@".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.username, "\n").concat(msg_1.caption) });
+                                        }
+                                        catch (e) {
+                                            console.log(e);
+                                        }
                                     });
                                 }
                                 else if ('document' in msg_1) {
@@ -164,7 +179,12 @@ function initBot() {
                                     botData.subscribed_users.forEach(function (user) {
                                         var _a;
                                         console.log("Sending message to ".concat(user));
-                                        bot.telegram.sendDocument(user, msg_1.document.file_id, { caption: "@".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.username, "\n").concat(msg_1.caption) });
+                                        try {
+                                            bot.telegram.sendDocument(user, msg_1.document.file_id, { caption: "@".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.username, "\n").concat(msg_1.caption) });
+                                        }
+                                        catch (e) {
+                                            console.log(e);
+                                        }
                                     });
                                 }
                                 else {

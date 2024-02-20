@@ -82,14 +82,16 @@ export async function initBot() {
                             ctx.sendMessage(msg);
                             botData.subscribed_users.forEach((user) => {
                                 console.log(`Sending message to ${user}`)
-                                bot.telegram.sendMessage(user, msg)
+                                try { bot.telegram.sendMessage(user, msg) }
+                                catch(e) { console.log(e) }
                             })
                         }
                         else if ('sticker' in msg) {
                             ctx.sendSticker(msg.sticker.file_id);
                             botData.subscribed_users.forEach((user) => {
                                 console.log(`Sending message to ${user}`)
-                                bot.telegram.sendSticker(user, msg.sticker.file_id)
+                                try { bot.telegram.sendSticker(user, msg.sticker.file_id) }
+                                catch(e) { console.log(e) }
                             })
                         }
                         else if ('photo' in msg) {
@@ -97,8 +99,9 @@ export async function initBot() {
                                 {caption: `@${ctx.from?.username}\n${msg.caption}`})
                             botData.subscribed_users.forEach((user) => {
                                 console.log(`Sending message to ${user}`)
-                                bot.telegram.sendPhoto(user, msg.photo[0].file_id, 
-                                    {caption: `@${ctx.from?.username}\n${msg.caption}`})
+                                try { bot.telegram.sendPhoto(user, msg.photo[0].file_id, 
+                                    {caption: `@${ctx.from?.username}\n${msg.caption}`}) }
+                                catch(e) { console.log(e) }
                             })
                         }
                         else if ('document' in msg) {
@@ -106,8 +109,9 @@ export async function initBot() {
                                 {caption: `@${ctx.from?.username}\n${msg.caption}`})
                             botData.subscribed_users.forEach((user) => {
                                 console.log(`Sending message to ${user}`)
-                                bot.telegram.sendDocument(user, msg.document.file_id, 
-                                    {caption: `@${ctx.from?.username}\n${msg.caption}`})
+                                try { bot.telegram.sendDocument(user, msg.document.file_id, 
+                                    {caption: `@${ctx.from?.username}\n${msg.caption}`}) }
+                                catch(e) { console.log(e) }
                             })
                         }
                         else {
