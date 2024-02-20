@@ -40,9 +40,16 @@ exports.initBot = void 0;
 var telegraf_1 = require("telegraf");
 var fs = require('fs');
 var path = require('path');
+var util = require('util');
+var log_file = fs.createWriteStream(__dirname + '/debug.log', { flags: 'w' });
+var log_stdout = process.stdout;
+console.log = function (d) {
+    log_file.write(util.format(d) + '\n');
+    log_stdout.write(util.format(d) + '\n');
+};
 // import botData from 'bot_data.json' assert {type: "json"};
 // import botData from 'bot_data_debug.json' assert {type: "json"};
-var botDataPath = path.resolve(__dirname, "bot_data.json");
+var botDataPath = path.resolve(__dirname, "bot_data_debug.json");
 function initBot() {
     return __awaiter(this, void 0, void 0, function () {
         var sendWizard, bot, stage, jsonData, botData, writeBotData;

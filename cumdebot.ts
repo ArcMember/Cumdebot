@@ -3,9 +3,18 @@ import { Message } from 'telegraf/typings/core/types/typegram';
 const fs = require('fs');
 const path = require('path');
 
+var util = require('util');
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
+
+console.log = function(d) { //
+  log_file.write(util.format(d) + '\n');
+  log_stdout.write(util.format(d) + '\n');
+};
+
 // import botData from 'bot_data.json' assert {type: "json"};
 // import botData from 'bot_data_debug.json' assert {type: "json"};
-const botDataPath = path.resolve(__dirname, "bot_data.json");
+const botDataPath = path.resolve(__dirname, "bot_data_debug.json");
 
 interface SessionData extends Scenes.WizardSessionData {
     waitingMessage?: Message,
