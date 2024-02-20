@@ -39,9 +39,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.initBot = void 0;
 var telegraf_1 = require("telegraf");
 var fs = require("fs");
-// import botData from './bot_data.json' assert {type: "json"};
-// import botData from './bot_data_debug.json' assert {type: "json"};
-var botDataPath = "./bot_data_debug.json";
+// import botData from 'bot_data.json' assert {type: "json"};
+// import botData from 'bot_data_debug.json' assert {type: "json"};
+var botDataPath = "bot_data.json";
 function initBot() {
     return __awaiter(this, void 0, void 0, function () {
         var sendWizard, bot, stage, jsonData, botData, writeBotData;
