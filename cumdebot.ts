@@ -40,15 +40,19 @@ export async function initBot() {
             if (userId != undefined && botData.admins.includes(userId)) {
                 console.log(`${userId} is admin!`)
 
-                try { ctx.deleteMessage() }
-                catch(e) { console.log(e) }
+                ctx.deleteMessage()
+                .catch(e => {
+                    console.log(e)
+                })
 
                 ctx.scene.session.waitingMessage = await ctx.sendMessage(`Жду послание от @${ctx.from?.username}`)
                 return ctx.wizard.next();
             }
             else {
-                try { ctx.deleteMessage() }
-                catch(e) { console.log(e) }
+                ctx.deleteMessage()
+                .catch(e => {
+                    console.log(e)
+                })
                 
                 return ctx.scene.leave();
             }
@@ -59,8 +63,10 @@ export async function initBot() {
                     console.log("Media group!! Retreat!!")
                     return ctx.scene.leave();
                 }
-                try { ctx.deleteMessage(ctx.scene.session.waitingMessage?.message_id); }
-                catch(e) { console.log(e) }
+                ctx.deleteMessage(ctx.scene.session.waitingMessage?.message_id)
+                .catch(e => {
+                    console.log(e)
+                })
                 ctx.scene.session.textMessage = ctx.message;
                 console.log(ctx.scene.session.textMessage)
                 ctx.scene.session.messageAuthor = ctx.from?.username;
@@ -72,14 +78,20 @@ export async function initBot() {
         },
         async (ctx) => {
             
-            try { ctx.deleteMessage(); }
-            catch(e) { console.log(e) }
+            ctx.deleteMessage()
+            .catch(e => {
+                console.log(e)
+            })
 
-            try { ctx.deleteMessage(ctx.scene.session.textMessage?.message_id); }
-            catch(e) { console.log(e) }
+            ctx.deleteMessage(ctx.scene.session.textMessage?.message_id)
+            .catch(e => {
+                console.log(e)
+            })
 
-            try { ctx.deleteMessage(ctx.scene.session.confirmationMessage?.message_id) }
-            catch(e) { console.log(e) }
+            ctx.deleteMessage(ctx.scene.session.confirmationMessage?.message_id)
+            .catch(e => {
+                console.log(e)
+            })
 
             if (ctx.message != undefined && 'text' in ctx.message) {
                 if (ctx.message.text.includes("Да")) {
@@ -89,43 +101,67 @@ export async function initBot() {
                         console.log(ctx.scene.session.textMessage)
                         const msg = ctx.scene.session.textMessage;
                         if ('text' in msg) {
-                            ctx.sendMessage(msg);
+                            ctx.sendMessage(`@${ctx.from?.username}\n${msg.text}`)
+                            .catch(e => {
+                                console.log(e)
+                            })
                             botData.subscribed_users.forEach((user) => {
                                 console.log(`Sending message to ${user}`)
-                                try { bot.telegram.sendMessage(user, msg) }
-                                catch(e) { console.log(e) }
+                                console.log("sending msg")
+                                bot.telegram.sendMessage(user, `@${ctx.from?.username}\n${msg.text}`)
+                                .catch(e => {
+                                    console.log(e)
+                                })
                             })
                         }
                         else if ('sticker' in msg) {
-                            ctx.sendSticker(msg.sticker.file_id);
+                            ctx.sendSticker(msg.sticker.file_id)
+                            .catch(e => {
+                                console.log(e)
+                            })
                             botData.subscribed_users.forEach((user) => {
                                 console.log(`Sending message to ${user}`)
-                                try { bot.telegram.sendSticker(user, msg.sticker.file_id) }
-                                catch(e) { console.log(e) }
+                                bot.telegram.sendSticker(user, msg.sticker.file_id)
+                                .catch(e => {
+                                    console.log(e)
+                                })
                             })
                         }
                         else if ('photo' in msg) {
                             ctx.sendPhoto(msg.photo[0].file_id, 
                                 {caption: `@${ctx.from?.username}\n${msg.caption}`})
+                            .catch(e => {
+                                console.log(e)
+                            })
                             botData.subscribed_users.forEach((user) => {
                                 console.log(`Sending message to ${user}`)
-                                try { bot.telegram.sendPhoto(user, msg.photo[0].file_id, 
-                                    {caption: `@${ctx.from?.username}\n${msg.caption}`}) }
-                                catch(e) { console.log(e) }
+                                bot.telegram.sendPhoto(user, msg.photo[0].file_id, 
+                                    {caption: `@${ctx.from?.username}\n${msg.caption}`})
+                                .catch(e => {
+                                    console.log(e)
+                                })
                             })
                         }
                         else if ('document' in msg) {
                             ctx.sendDocument(msg.document.file_id, 
                                 {caption: `@${ctx.from?.username}\n${msg.caption}`})
+                            .catch(e => {
+                                console.log(e)
+                            })
                             botData.subscribed_users.forEach((user) => {
                                 console.log(`Sending message to ${user}`)
-                                try { bot.telegram.sendDocument(user, msg.document.file_id, 
-                                    {caption: `@${ctx.from?.username}\n${msg.caption}`}) }
-                                catch(e) { console.log(e) }
+                                bot.telegram.sendDocument(user, msg.document.file_id, 
+                                    {caption: `@${ctx.from?.username}\n${msg.caption}`})
+                                .catch(e => {
+                                    console.log(e)
+                                })
                             })
                         }
                         else {
                             ctx.reply(`@${ctx.from?.username} некорректный формат! Отправлять можно только текст, стикеры и одиночные фото или документы.`)
+                            .catch(e => {
+                                console.log(e)
+                            })
                         }
                         
                     }
@@ -159,8 +195,10 @@ export async function initBot() {
                     ctx.reply('Бот подключен')
                 }
                 else {
-                    try { ctx.deleteMessage(); }
-                    catch(e) { console.log(e) }
+                    ctx.deleteMessage()
+                    .catch(e => {
+                        console.log(e)
+                    })
 
                     ctx.reply(`@${ctx.from.username} вы уже подключены!`)
                 }
@@ -170,8 +208,10 @@ export async function initBot() {
             if (userId != undefined) {
                 if (botData.subscribed_users.includes(userId)) {
 
-                    try { ctx.deleteMessage(); }
-                    catch(e) { console.log(e) }
+                    ctx.deleteMessage()
+                    .catch(e => {
+                        console.log(e)
+                    })
 
                     ctx.reply(`@${ctx.from.username} вы уже подключены!`)
                     return;

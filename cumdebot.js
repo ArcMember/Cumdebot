@@ -49,7 +49,7 @@ console.log = function (d) {
 };
 // import botData from 'bot_data.json' assert {type: "json"};
 // import botData from 'bot_data_debug.json' assert {type: "json"};
-var botDataPath = path.resolve(__dirname, "bot_data_debug.json");
+var botDataPath = path.resolve(__dirname, "bot_data.json");
 function initBot() {
     return __awaiter(this, void 0, void 0, function () {
         var sendWizard, bot, stage, jsonData, botData, writeBotData;
@@ -66,24 +66,20 @@ function initBot() {
                             userId = (_b = ctx.from) === null || _b === void 0 ? void 0 : _b.id;
                             if (!(userId != undefined && botData.admins.includes(userId))) return [3 /*break*/, 2];
                             console.log("".concat(userId, " is admin!"));
-                            try {
-                                ctx.deleteMessage();
-                            }
-                            catch (e) {
+                            ctx.deleteMessage()
+                                .catch(function (e) {
                                 console.log(e);
-                            }
+                            });
                             _a = ctx.scene.session;
                             return [4 /*yield*/, ctx.sendMessage("\u0416\u0434\u0443 \u043F\u043E\u0441\u043B\u0430\u043D\u0438\u0435 \u043E\u0442 @".concat((_c = ctx.from) === null || _c === void 0 ? void 0 : _c.username))];
                         case 1:
                             _a.waitingMessage = _d.sent();
                             return [2 /*return*/, ctx.wizard.next()];
                         case 2:
-                            try {
-                                ctx.deleteMessage();
-                            }
-                            catch (e) {
+                            ctx.deleteMessage()
+                                .catch(function (e) {
                                 console.log(e);
-                            }
+                            });
                             return [2 /*return*/, ctx.scene.leave()];
                     }
                 });
@@ -98,12 +94,10 @@ function initBot() {
                                     console.log("Media group!! Retreat!!");
                                     return [2 /*return*/, ctx.scene.leave()];
                                 }
-                                try {
-                                    ctx.deleteMessage((_b = ctx.scene.session.waitingMessage) === null || _b === void 0 ? void 0 : _b.message_id);
-                                }
-                                catch (e) {
+                                ctx.deleteMessage((_b = ctx.scene.session.waitingMessage) === null || _b === void 0 ? void 0 : _b.message_id)
+                                    .catch(function (e) {
                                     console.log(e);
-                                }
+                                });
                                 ctx.scene.session.textMessage = ctx.message;
                                 console.log(ctx.scene.session.textMessage);
                                 ctx.scene.session.messageAuthor = (_c = ctx.from) === null || _c === void 0 ? void 0 : _c.username;
@@ -118,26 +112,20 @@ function initBot() {
                 });
             }); }, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
                 var msg_1;
-                var _a, _b, _c, _d, _e;
-                return __generator(this, function (_f) {
-                    try {
-                        ctx.deleteMessage();
-                    }
-                    catch (e) {
+                var _a, _b, _c, _d, _e, _f;
+                return __generator(this, function (_g) {
+                    ctx.deleteMessage()
+                        .catch(function (e) {
                         console.log(e);
-                    }
-                    try {
-                        ctx.deleteMessage((_a = ctx.scene.session.textMessage) === null || _a === void 0 ? void 0 : _a.message_id);
-                    }
-                    catch (e) {
+                    });
+                    ctx.deleteMessage((_a = ctx.scene.session.textMessage) === null || _a === void 0 ? void 0 : _a.message_id)
+                        .catch(function (e) {
                         console.log(e);
-                    }
-                    try {
-                        ctx.deleteMessage((_b = ctx.scene.session.confirmationMessage) === null || _b === void 0 ? void 0 : _b.message_id);
-                    }
-                    catch (e) {
+                    });
+                    ctx.deleteMessage((_b = ctx.scene.session.confirmationMessage) === null || _b === void 0 ? void 0 : _b.message_id)
+                        .catch(function (e) {
                         console.log(e);
-                    }
+                    });
                     if (ctx.message != undefined && 'text' in ctx.message) {
                         if (ctx.message.text.includes("Да")) {
                             console.log("Message sending approved!");
@@ -146,57 +134,66 @@ function initBot() {
                                 console.log(ctx.scene.session.textMessage);
                                 msg_1 = ctx.scene.session.textMessage;
                                 if ('text' in msg_1) {
-                                    ctx.sendMessage(msg_1);
+                                    ctx.sendMessage("@".concat((_c = ctx.from) === null || _c === void 0 ? void 0 : _c.username, "\n").concat(msg_1.text))
+                                        .catch(function (e) {
+                                        console.log(e);
+                                    });
                                     botData.subscribed_users.forEach(function (user) {
+                                        var _a;
                                         console.log("Sending message to ".concat(user));
-                                        try {
-                                            bot.telegram.sendMessage(user, msg_1);
-                                        }
-                                        catch (e) {
+                                        console.log("sending msg");
+                                        bot.telegram.sendMessage(user, "@".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.username, "\n").concat(msg_1.text))
+                                            .catch(function (e) {
                                             console.log(e);
-                                        }
+                                        });
                                     });
                                 }
                                 else if ('sticker' in msg_1) {
-                                    ctx.sendSticker(msg_1.sticker.file_id);
+                                    ctx.sendSticker(msg_1.sticker.file_id)
+                                        .catch(function (e) {
+                                        console.log(e);
+                                    });
                                     botData.subscribed_users.forEach(function (user) {
                                         console.log("Sending message to ".concat(user));
-                                        try {
-                                            bot.telegram.sendSticker(user, msg_1.sticker.file_id);
-                                        }
-                                        catch (e) {
+                                        bot.telegram.sendSticker(user, msg_1.sticker.file_id)
+                                            .catch(function (e) {
                                             console.log(e);
-                                        }
+                                        });
                                     });
                                 }
                                 else if ('photo' in msg_1) {
-                                    ctx.sendPhoto(msg_1.photo[0].file_id, { caption: "@".concat((_c = ctx.from) === null || _c === void 0 ? void 0 : _c.username, "\n").concat(msg_1.caption) });
+                                    ctx.sendPhoto(msg_1.photo[0].file_id, { caption: "@".concat((_d = ctx.from) === null || _d === void 0 ? void 0 : _d.username, "\n").concat(msg_1.caption) })
+                                        .catch(function (e) {
+                                        console.log(e);
+                                    });
                                     botData.subscribed_users.forEach(function (user) {
                                         var _a;
                                         console.log("Sending message to ".concat(user));
-                                        try {
-                                            bot.telegram.sendPhoto(user, msg_1.photo[0].file_id, { caption: "@".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.username, "\n").concat(msg_1.caption) });
-                                        }
-                                        catch (e) {
+                                        bot.telegram.sendPhoto(user, msg_1.photo[0].file_id, { caption: "@".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.username, "\n").concat(msg_1.caption) })
+                                            .catch(function (e) {
                                             console.log(e);
-                                        }
+                                        });
                                     });
                                 }
                                 else if ('document' in msg_1) {
-                                    ctx.sendDocument(msg_1.document.file_id, { caption: "@".concat((_d = ctx.from) === null || _d === void 0 ? void 0 : _d.username, "\n").concat(msg_1.caption) });
+                                    ctx.sendDocument(msg_1.document.file_id, { caption: "@".concat((_e = ctx.from) === null || _e === void 0 ? void 0 : _e.username, "\n").concat(msg_1.caption) })
+                                        .catch(function (e) {
+                                        console.log(e);
+                                    });
                                     botData.subscribed_users.forEach(function (user) {
                                         var _a;
                                         console.log("Sending message to ".concat(user));
-                                        try {
-                                            bot.telegram.sendDocument(user, msg_1.document.file_id, { caption: "@".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.username, "\n").concat(msg_1.caption) });
-                                        }
-                                        catch (e) {
+                                        bot.telegram.sendDocument(user, msg_1.document.file_id, { caption: "@".concat((_a = ctx.from) === null || _a === void 0 ? void 0 : _a.username, "\n").concat(msg_1.caption) })
+                                            .catch(function (e) {
                                             console.log(e);
-                                        }
+                                        });
                                     });
                                 }
                                 else {
-                                    ctx.reply("@".concat((_e = ctx.from) === null || _e === void 0 ? void 0 : _e.username, " \u043D\u0435\u043A\u043E\u0440\u0440\u0435\u043A\u0442\u043D\u044B\u0439 \u0444\u043E\u0440\u043C\u0430\u0442! \u041E\u0442\u043F\u0440\u0430\u0432\u043B\u044F\u0442\u044C \u043C\u043E\u0436\u043D\u043E \u0442\u043E\u043B\u044C\u043A\u043E \u0442\u0435\u043A\u0441\u0442, \u0441\u0442\u0438\u043A\u0435\u0440\u044B \u0438 \u043E\u0434\u0438\u043D\u043E\u0447\u043D\u044B\u0435 \u0444\u043E\u0442\u043E \u0438\u043B\u0438 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B."));
+                                    ctx.reply("@".concat((_f = ctx.from) === null || _f === void 0 ? void 0 : _f.username, " \u043D\u0435\u043A\u043E\u0440\u0440\u0435\u043A\u0442\u043D\u044B\u0439 \u0444\u043E\u0440\u043C\u0430\u0442! \u041E\u0442\u043F\u0440\u0430\u0432\u043B\u044F\u0442\u044C \u043C\u043E\u0436\u043D\u043E \u0442\u043E\u043B\u044C\u043A\u043E \u0442\u0435\u043A\u0441\u0442, \u0441\u0442\u0438\u043A\u0435\u0440\u044B \u0438 \u043E\u0434\u0438\u043D\u043E\u0447\u043D\u044B\u0435 \u0444\u043E\u0442\u043E \u0438\u043B\u0438 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u044B."))
+                                        .catch(function (e) {
+                                        console.log(e);
+                                    });
                                 }
                             }
                         }
@@ -225,12 +222,10 @@ function initBot() {
                             ctx.reply('Бот подключен');
                         }
                         else {
-                            try {
-                                ctx.deleteMessage();
-                            }
-                            catch (e) {
+                            ctx.deleteMessage()
+                                .catch(function (e) {
                                 console.log(e);
-                            }
+                            });
                             ctx.reply("@".concat(ctx.from.username, " \u0432\u044B \u0443\u0436\u0435 \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u044B!"));
                         }
                     }
@@ -238,12 +233,10 @@ function initBot() {
                 else {
                     if (userId != undefined) {
                         if (botData.subscribed_users.includes(userId)) {
-                            try {
-                                ctx.deleteMessage();
-                            }
-                            catch (e) {
+                            ctx.deleteMessage()
+                                .catch(function (e) {
                                 console.log(e);
-                            }
+                            });
                             ctx.reply("@".concat(ctx.from.username, " \u0432\u044B \u0443\u0436\u0435 \u043F\u043E\u0434\u043A\u043B\u044E\u0447\u0435\u043D\u044B!"));
                             return;
                         }
