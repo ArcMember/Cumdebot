@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "target": "ES5",
-    "module": "CommonJS",
-    "types": ["node"],
+    "target": "ES2017",
+    "module": "ES2022",
+    "types": ["node"]
   },
   "files": ["./.eslintrc.cjs"],
   "include": ["src", "./*.d.ts", "./*.config.ts", "src/indexing/index-files.mjs", "bot"],
   "ts-node": {
     "esm": true,
     "compilerOptions": {
-      "module": "CommonJS",
+      "module": "NodeNext",
       "resolveJsonModule": true,
-      "esModuleInterop": true,
+      "esModuleInterop": true
     }
   }
 }

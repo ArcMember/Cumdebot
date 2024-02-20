@@ -15,6 +15,5 @@
   "dependencies": {
     "telegraf": "^4.15.3",
     "ts-node": "^10.9.2"
-  },
-  "type": "module"
+  }
 }
