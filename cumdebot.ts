@@ -4,7 +4,7 @@ import * as fs from 'fs';
 
 // import botData from './bot_data.json' assert {type: "json"};
 // import botData from './bot_data_debug.json' assert {type: "json"};
-const botDataPath = "./bot_data.json";
+const botDataPath = "./bot_data_debug.json";
 
 interface SessionData extends Scenes.WizardSessionData {
     waitingMessage?: Message,
