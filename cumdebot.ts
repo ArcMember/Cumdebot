@@ -1,10 +1,11 @@
 import { Context, Scenes, Telegraf, session } from 'telegraf';
 import { Message } from 'telegraf/typings/core/types/typegram';
-import * as fs from 'fs';
+const fs = require('fs');
+const path = require('path');
 
 // import botData from 'bot_data.json' assert {type: "json"};
 // import botData from 'bot_data_debug.json' assert {type: "json"};
-const botDataPath = "bot_data.json";
+const botDataPath = path.resolve(__dirname, "bot_data.json");
 
 interface SessionData extends Scenes.WizardSessionData {
     waitingMessage?: Message,
